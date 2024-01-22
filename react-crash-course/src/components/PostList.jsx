@@ -8,26 +8,27 @@ import style from "./PostList.module.css";
 // Post List component
 
 function PostList(props) {
-  /*There are multiple component within the PostList component
-        - Maintain the state of the body provided from the 'NewPost' component
-        - Maintain the state of the author provided from the 'NewPost' component*/
-  const [enteredBody, setEnteredBody] = useState("");
-  const [enteredAuthor, setEnteredAuthor] = useState("");
+
+  // State for managing post list
+  const [currentPostList, setPostList] = useState([])
 
   /**
-   * Event listener function triggered from NewPost component upon text body on change event.
-   * @param {*} event
+   * Responsible for updating the state holding the post list.
+   * @param {*} postData 
    */
-  function bodyChangeHandler(event) {
-    setEnteredBody(event.target.value);
-  }
+  function addPostHandler(postData) {
+    // // Using JavaScrip spread operator to clone the existing array
+    // const newPostList = [...currentPostList];
+    // // Set the new post
+    // newPostList.push(postData)
+    // // Update the state
 
-  /**
-   * Event listener function triggered from NewPost component upon text author on change event.
-   * @param {*} event
-   */
-  function authorChangeHandler(event) {
-    setEnteredAuthor(event.target.value);
+    // Add the new post and then add the rest of the existing posts (Alternative to the previous approach)
+    //setPostList([postData, ...currentPostList]);
+
+    // Technically a better way to update the state, if the state update is based on the existing values
+    // Use this way, if the new state is based on the results of the other states
+    setPostList((existingPosts) => [postData, ...existingPosts])
   }
 
   /**
@@ -42,18 +43,33 @@ function PostList(props) {
       {props.isModalOpen === true ? (
         <Modal onClose={props.closeModal}>
           {/*NewPost component is wrapped around the Modal componet. Modal component should accept the 'NewPost' component as 'props.children' and place it where necessary.*/}
-          {/*NewPost component had two props, one is 'bodyChangeHandler' function and the other one is 'authorChangeHandler' function*/}
+          {/*NewPost component has two props which are 'closeModal' and 'updatePosts' functions*/}
           <NewPost
-            onBodyChange={bodyChangeHandler}
-            onAuthorChange={authorChangeHandler}
+            onCancel={props.closeModal}
+            onAddPost={addPostHandler}
           />
         </Modal>
       ) : null}
-      <ul className={style.posts}>
-        <li><Post author="Sankalpa Wijewickrama" body="RactJS is awesome!" /></li>
-        <li><Post author="John Carter" body="JavaScript is awesome!" /></li>
-        <li><Post author="James Blake" body="Java is awesome!" /></li>
-      </ul>
+
+      {/*Conditionally display the posts or placeholder when there are no posts available*/}
+      {currentPostList.length > 0 ? (
+        <ul className={style.posts}>
+          {/*Unordered list holding the posts*/}
+          {/*Iterate through the 'currentPostList' and dynamically render post components*/}
+          {currentPostList.map((post, index) => (
+            <li key={index}>
+              {/*The list item element has a key prop which is required for the react to uniquely recognize different components in the list*/}
+              {/*Rendering the post component*/}
+              <Post author={post.author} body={post.body} />
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <div style={{textAlign:'center', color:'white'}}>
+          <h2>There are no posts yet.</h2>
+          <p>Start adding some!</p>
+        </div>
+      )}
     </>
   );
 }
