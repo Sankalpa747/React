@@ -6,12 +6,12 @@ import style from "./Modal.module.css";
 
 function Modal(props) {
 
-  // This is a third party react hook for navigating routes programmatically.
+  // This is a third party react hook for navigating routes programmatically
   const navigate = useNavigate();
 
   /**
-   * Responsible for handling the modal close. 
-   * Executes when the user clicks outside the modal.
+   * Responsible for handling the modal close
+   * Executes when the user clicks outside the modal
    */
   function closeHandler() {
     // Using the relative path for going back
@@ -27,7 +27,7 @@ function Modal(props) {
     <>
       <div className={style.backdrop} onClick={closeHandler} />
       <dialog open className={style.modal}>
-        {/*Modal component wraps other components. props.children --> Get the wrapped component and insert.*/}
+        {/*Modal component wraps other components (props.children --> Get the wrapped component and insert)*/}
         {props.children}
       </dialog>
     </>

@@ -1,5 +1,4 @@
 // Imports
-//import { useState, useEffect } from "react";
 import Post from "./Post.jsx";
 import style from "./PostList.module.css";
 import { useLoaderData } from "react-router-dom";
@@ -8,46 +7,16 @@ import { useLoaderData } from "react-router-dom";
 
 function PostList() {
 
+  /*Using 'useLoaderData' hook
+    This route configuration has defined a 'loader' attribute which holds a function defined within this component or in a parent component (Posts)
+    That function triggers before this component renders
+    That function obtains the initial data and returns the data
+    This hook is used to obtain that returned data during the rendering time*/
   const posts = useLoaderData();
 
-  // State for managing post list
-  //const [currentPostList, setPostList] = useState([])
-  // State for managing the post fetching duration
-  //const [isFetching, setIsFetching] = useState(false);
-
-  /**
-   * Effects
-   * Make sure this effect function does not always execute when the component function executes
-   * It executes sometimes when the component function executes but not always
-   * The second argument of useEffect() holds an array
-   *    It defined the dependencies of the effect (Any variable or function outside the effect)
-   *    When that dependency changes this effect executes
-   *    The array is empty means this effect has no dependencies and this effect will only be called once the component is rendered
-   */
-  // useEffect(() => {
-  //   async function fetchPosts() {
-  //     setIsFetching(true)
-  //     const response = await fetch('http://localhost:8080/posts')
-  //     const redData = await response.json();
-
-  //     // Handling errors
-  //     //if (!response.ok()) {}
-
-  //     setPostList(redData.posts)
-  //     setIsFetching(false)
-  //   }
-
-  //   // Call the defined async fetchPosts() function
-  //   fetchPosts();
-  // }, []);
-
-  /**
-   * Modal component holds the styling which gives a modal (window / lightbox) look
-   * Modal will be displayed conditionally - For the else condition, either 'null' or 'flase' can be used
-   */
   return (
     <>
-      {/*Conditionally display the posts when there are posts available and not during the fetching*/}
+      {/*Conditionally display the posts when there are posts available*/}
       {posts.length > 0 && (
         <ul className={style.posts}>
           {/*Unordered list holding the posts*/}
@@ -62,16 +31,13 @@ function PostList() {
         </ul>
       )}
 
-      {/*Conditionally display the placeholder when there are no posts available and not during the fetching*/}
+      {/*Conditionally display the placeholder when there are no posts available*/}
       {posts.length === 0 && (
         <div style={{textAlign:'center', color:'white'}}>
           <h2>There are no posts yet.</h2>
           <p>Start adding some!</p>
         </div>
       )}
-
-      {/*Conditionally display the fetching placeholder during the fetching*/}
-      {/* {isFetching && <div style={{ textAlign: 'center', color: 'white'}}><p>Loading posts...</p></div>} */}
     </>
   );
 }

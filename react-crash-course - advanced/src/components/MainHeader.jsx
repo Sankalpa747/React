@@ -13,7 +13,7 @@ function MainHeader() {
         React Notes Poster
       </h1>
       <p>
-        {/*Button on click event triggers the 'onCreatePost' function sent from parent App comonent*/}
+        {/*React Link component redirects the route to '/create-post' which displays as an overlay to '/' path*/}
         <Link to="/create-post" className={style.button} >
           <MdPostAdd size={18} />
           Add New Post
